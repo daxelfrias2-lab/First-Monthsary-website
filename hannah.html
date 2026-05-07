@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Monthsary - Bibi Ko 💕</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Sacramento&family=Poppins:wght@300;400;600&family=Playfair+Display:wght@400;700&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .floating-elements {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
+        }
+
+        .heart {
+            position: absolute; font-size: 20px;
+            animation: float 6s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; position: relative; z-index: 10; }
+
+        .cover {
+            height: 100vh; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px); border-radius: 30px; box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.3); animation: coverFloat 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes coverFloat { 0% { transform: translateY(0px); } 100% { transform: translateY(-10px); } }
+
+        .cover h1 {
+            font-family: 'Sacramento', cursive; font-size: clamp(3rem, 10vw, 8rem);
+            background: linear-gradient(45deg, #ff6b6b, #feca57, #ff9ff3); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; margin-bottom: 20px; animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px #ff6b6b); }
+            to { filter: drop-shadow(0 0 20px #feca57); }
+        }
+
+        .cover .date { font-family: 'Dancing Script', cursive; font-size: 2.5rem; color: white; margin-bottom: 30px; }
+
+        .flipbook { perspective: 2000px; }
+        .page {
+            position: absolute; width: 100%; height: 100vh; background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(15px); border-radius: 25px; padding: 40px; box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            transform-origin: left center; transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: flex; flex-direction: column; justify-content: flex-start; align-items: center;
+            text-align: center; opacity: 0; transform: rotateY(-180deg); overflow-y: auto;
+        }
+
+        .page.active { opacity: 1; transform: rotateY(0deg); z-index: 20; }
+        .page.flipping { z-index: 30; }
+
+        .page-header { text-align: center; margin-bottom: 30px; flex-shrink: 0; }
+        .page h2 {
+            font-family: 'Dancing Script', cursive; font-size: 3.5rem;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; margin-bottom: 15px;
+        }
+
+        .page-subtitle { font-family: 'Sacramento', cursive; font-size: 1.8rem; color: #ff6b6b; }
+
+        .photo-gallery {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;
+            max-width: 900px; width: 100%; margin: 20px auto; padding: 0 20px;
+        }
+
+        .photo-item {
+            aspect-ratio: 1; border-radius: 20px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); cursor: pointer; position: relative;
+            background: linear-gradient(135deg, #ff9a9e, #fecfef); display: flex; align-items: center;
+            justify-content: center; color: #333; font-size: 1.1rem; font-weight: 600; text-align: center;
+        }
+
+        .photo-item:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 25px 50px rgba(0,0,0,0.4); }
+        .photo-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        .photo-item::after {
+            content: attr(data-caption); position: absolute; bottom: 10px; left: 50%;
+            transform: translateX(-50%); background: rgba(255,255,255,0.9); padding: 5px 10px;
+            border-radius: 15px; font-size: 0.8rem; white-space: nowrap; opacity: 0; transition: opacity 0.3s ease;
+        }
+
+        .photo-item:hover::after { opacity: 1; }
+
+        .love-letter {
+            font-family: 'Playfair Display', serif; font-size: 1.25rem; line-height: 1.9; color: #2c3e50;
+            max-width: 750px; margin: 30px auto; background: rgba(255,255,255,0.9); padding: 40px;
+            border-radius: 25px; border: 3px dashed #ff6b6b; box-shadow: 0 20px 40px rgba(0,0,0,0.1),
+            inset 0 0 25px rgba(255,255,255,0.8); animation: fadeIn 1.5s ease-out 0.5s both; flex-shrink: 0;
+            position: relative;
+        }
+
+        .love-letter::before {
+            content: '💌'; position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+            font-size: 2rem; background: white; padding: 10px; border-radius: 50%; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .love-letter p { margin-bottom: 20px; }
+        .signature {
+            text-align: right; margin-top: 30px; font-size: 1.6rem; font-family: 'Sacramento', cursive; color: #ff6b6b;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #ffecd2 0%, #fcb69f 100%); padding: 5px 10px;
+            border-radius: 10px; font-weight: 600;
+        }
+
+        .nav-buttons {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 20px; z-index: 100;
+        }
+
+        .nav-btn {
+            width: 70px; height: 70px; border-radius: 50%; border: none; font-size: 1.5rem;
+            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            backdrop-filter: blur(20px); color: white; font-weight: bold;
+        }
+
+        .prev-btn { background: linear-gradient(45deg, #667eea, #764ba2); }
+        .next-btn { background: linear-gradient(45deg, #f093fb, #f5576c); }
+
+        .nav-btn:hover { transform: scale(1.1) translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
+
+        @keyframes slideInUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 768px) {
+            .photo-gallery { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+            .page { padding: 25px 20px; }
+            .love-letter { font-size: 1.1rem; padding: 25px; margin: 20px auto; }
+        }
+
+        @media (max-width: 480px) { .photo-gallery { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+    <div class="floating-elements" id="floatingElements"></div>
+
+    <div class="container">
+        <!-- Cover Page -->
+        <div class="cover flipbook">
+            <h1>Hi Bibi Ko</h1>
+            <div class="date">Happy 1st Monthsary 💕</div>
+            <div style="font-family: 'Dancing Script', cursive; font-size: 2rem; color: white; margin-top: 20px;">
+                Tap to read my heart for you...
+            </div>
+        </div>
+
+        <!-- Page 1: Main Love Story -->
+        <div class="page" id="page1">
+            <div class="page-header">
+                <h2>💌 Hindi Makapaniwala</h2>
+                <div class="page-subtitle">Our Unexpected Love Story</div>
+            </div>
+            
+            <div class="photo-gallery">
+                <div class="photo-item" data-caption="Dating in Roblox">
+                     <img src="Roblox.jpg" alt="First ML Game">
+                </div>
+                <div class="photo-item" data-caption="Become Partner">
+                    <img src="ML.jpg" alt="Become partner">
+                </div>
+                <div class="photo-item" data-caption="First Wallpaper">
+                    <img src="wallpaper.jpg" alt="First ML Game">
+                </div>
+                <div class="photo-item" data-caption="Most Beautiful face">
+                    <img src="gwapa.jpg" alt="First ML Game">
+                </div>
+                <div class="photo-item" data-caption="Baby Face The i Like it!">
+                    <img src="cute.jpg" alt="First ML Game">
+                </div>
+                <div class="photo-item" data-caption="First Date">
+                    <img src="Date.jpg" alt="First ML Game">
+                </div>
+                <div class="photo-item" data-caption="Date Nature Date">
+                    <img src="date1.jpg" alt="First ML Game">
+                </div>
+
+                <div class="photo-item" data-caption="Fav Holding hand">
+                    <img src="fav.jpg" alt="First ML Game">
+                </div>
+                <div class="photo-item" data-caption="Kiss">
+                    <img src="kiss.jpg" alt="First ML Game">
+                </div>
+                <div class="photo-item" data-caption="I like this Gift">
+                    <img src="gift.jpg" alt="First ML Game">
+                </div>
+                   <div class="photo-item" data-caption="fiesta">
+                    <img src="Hme.jpg" alt="First ML Game">
+                </div>
+                   <div class="photo-item" data-caption="Make tiktok trends">
+                    <img src="tiktok.jpg" alt="First ML Game">
+                </div>
+              
+            </div>
+
+            <div class="love-letter">
+                <p><strong>Hi bibi ko,</strong></p>
+                
+                <p><strong>Hindi ako makapaniwala na dumating ka sa mundo ko sa panahong wala talaga akong balak umibig ulit.</strong> Naka-focus lang talaga ako noon sa mga kaibigan ko at sa academics ko.</p>
+                
+                <p>Then <span class="highlight">bigla kang nagpapansin sakin</span>  nagyayaya maglaro ng ML, Roblox, at nakikipag-usap buong gabi. Doon ko biglang naisip, "<span class="highlight">Ito na ba yung pag-ibig na hinahanap ko?</span>" 😂</p>
+                
+                <p>Habang tumatagal, <strong>unti-unti na akong nahuhulog sayo</strong>. Hindi ko rin alam kung paano nangyari, basta bigla na lang akong nagkaroon ng espesyal na nararamdaman para sayo. Ikaw yung taong nagbibigay sakin ng <span class="highlight">saya, peace, comfort, at dahilan para ngumiti araw-araw</span>.</p>
+                
+                <p><em>"You came at a time I wasn't looking for love, yet somehow, you became exactly what I needed."</em></p>
+                
+                <p><em>"Maybe you were never part of my plans, but I truly believe you were part of God's plan for me all along."</em></p>
+                
+                <p><strong>And now, I'm just truly grateful because I have you.</strong> Thank you for staying, for making me happy, and for loving me the way you do. I hope this is only the beginning of more beautiful memories together.</p>
+                
+                <div class="signature">
+                    Happy first monthsary, bibi. ❤️
+                </div>
+            </div>
+        </div>
+
+        <!-- Page 2: Why I Fell For You -->
+        <div class="page" id="page2">
+            <div class="page-header">
+                <h2>💖 The little Things About You That fell in love with...</h2>
+                <div class="page-subtitle">The Reasons I Love You, Bibi</div>
+            </div>
+
+            <div class="love-letter" style="max-width: 800px;">
+                <p><strong>Bibi, alam mo ba kung bakit ako na-fall nang sobra sa'yo?</strong> Kasi sa bawat maliit na bagay tungkol sa'yo, <span class="highlight">mas lalo akong nahuhulog araw-araw</span>.</p>
+                
+                <p><strong>Yung smile mo pa lang</strong>, kaya na agad pagaanin yung buong araw ko. Kapag nakikita kitang ngumiti, parang nawawala lahat ng pagod at problema ko. <strong>Ang ganda mo rin sobra</strong>, pero hindi lang dahil sa mukha mo  kundi dahil sa <span class="highlight">kung sino ka bilang tao</span>.</p>
+                
+                <p><strong>Gustong-gusto ko yung pagiging makulit mo</strong> kasi ikaw yung dahilan kung bakit lagi akong napapangiti at napapatawa. Ang sarap mong kausap at kasama. <strong>Hinahangaan din kita</strong> dahil masipag ka at maalaga, lalo na sa mga kapatid mo. Nakikita ko kung gaano kalaki yung puso mo, at doon mas lalo akong naiinlove sa'yo.</p>
+                
+                <p><strong>At yung cute mong boses?</strong> Kahit simpleng salita mo lang, sobrang sarap na pakinggan para sakin. <strong>Ang sexy mo rin sa paningin ko</strong>, pero mas lalo akong nahuhulog kapag simple ka lang at walang make up  kasi mas nakikita ko yung <span class="highlight">natural mong ganda</span>.</p>
+                
+                <p>Kapag naka-dress ka o mahinhin manamit, ewan ko ba, pero <strong>mas lalo akong napapahanga sa'yo</strong>. Yung eyes mo, parang kaya akong patahanin sa simpleng tingin lang. Tapos yung <strong>cute mong pisngi</strong>, sobrang sarap pisilin kasi ang cute-cute mo talaga! 😍</p>
+                
+                <p><strong>Sa totoo lang, hindi lang iisang dahilan kung bakit kita mahal.</strong> Lahat ng bagay tungkol sa'yo  maliit man o malaki  unti-unting naging dahilan kung bakit <span class="highlight">ikaw yung taong gusto kong mahalin araw-araw</span>. ❤️</p>
+                
+                <div class="signature" style="font-size: 2rem; margin-top: 40px;">
+                    Mahal na mahal kita, Bibi Ko! 💕
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
+        <button class="nav-btn prev-btn" onclick="prevPage()" id="prevBtn" style="display: none;">←</button>
+        <button class="nav-btn next-btn" onclick="nextPage()">→</button>
+    </div>
+
+    <script>
+        let currentPage = 0;
+        const totalPages = 2;
+        const pages = ['page1', 'page2'];
+
+        document.querySelector('.cover').addEventListener('click', () => {
+            document.querySelector('.cover').style.display = 'none';
+            showPage(0);
+            document.getElementById('prevBtn').style.display = 'block';
+        });
+
+        function showPage(index) {
+            document.querySelectorAll('.page').forEach((page, i) => {
+                page.classList.remove('active', 'flipping');
+                if (i === index) setTimeout(() => page.classList.add('active'), 100);
+            });
+            currentPage = index;
+            updateNav();
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages - 1) {
+                document.getElementById(pages[currentPage]).classList.add('flipping');
+                setTimeout(() => showPage(currentPage + 1), 500);
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                document.getElementById(pages[currentPage]).classList.add('flipping');
+                setTimeout(() => showPage(currentPage - 1), 500);
+            } else {
+                document.querySelector('.cover').style.display = 'flex';
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                document.getElementById('prevBtn').style.display = 'none';
+            }
+        }
+
+        function updateNav() {
+            document.getElementById('prevBtn').style.display = currentPage > 0 ? 'block' : 'none';
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = ['💕', '💖', '💗', '💓', '💞'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heart.style.fontSize = (Math.random() * 15 + 15) + 'px';
+            document.getElementById('floatingElements').appendChild(heart);
+            setTimeout(() => heart.remove(), 7000);
+        }
+
+        setInterval(createHeart, 800);
+
+        let startX = 0;
+        document.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+        document.addEventListener('touchend', e => {
+            if (!startX) return;
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) nextPage();
+                else prevPage();
+            }
+            startX = 0;
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextPage();
+            if (e.key === 'ArrowLeft') prevPage();
+        });
+    </script>
+</body>
+</html>
